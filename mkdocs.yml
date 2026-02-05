@@ -1,0 +1,49 @@
+site_name: Ars Magica Rulebook
+site_url: https://fmlabonte.github.io/ARS-MAGICA-4th-edition-wiki/
+site_description: Complete searchable reference for Ars Magica RPG
+theme:
+  name: material
+  features:
+  - navigation.tabs
+  - navigation.sections
+  - navigation.expand
+  - navigation.top
+  - search.suggest
+  - search.highlight
+  - content.code.copy
+  - navigation.indexes
+  palette:
+  - scheme: default
+    primary: deep-purple
+    accent: amber
+    toggle:
+      icon: material/brightness-7
+      name: Switch to dark mode
+  - scheme: slate
+    primary: deep-purple
+    accent: amber
+    toggle:
+      icon: material/brightness-4
+      name: Switch to light mode
+plugins:
+- search
+markdown_extensions:
+- toc
+- tables
+- admonition
+- pymdownx.details
+- pymdownx.superfences
+- pymdownx.tabbed
+- attr_list
+- md_in_html
+nav:
+- Home: index.md
+- Chapter Ii  Characters:
+  - Types of Characters: Chapter II- Characters/types-of-characters.md
+  - Steps in Character Creation: Chapter II- Characters/steps-in-character-creation.md
+  - Virtues and Flaws: Chapter II- Characters/virtues-and-flaws.md
+  - Abilities: Chapter II- Characters/abilities.md
+  - Magical Training: Chapter II- Characters/magical-training.md
+- Chapter Iii  Hermetic Magic:
+  - The Hermetic Arts: Chapter III- Hermetic Magic/the-hermetic-arts.md
+  - Casting Spells: Chapter III- Hermetic Magic/casting-spells.md
