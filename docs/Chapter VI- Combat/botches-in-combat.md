@@ -1,0 +1,5 @@
+## Botches in Combat
+
+These combat rules tell players who wins a fight and indicate how much damage each side suffers, but they alone cannot simulate all the life-threatening, anxiety-provoking, and even humorous things that can happen on a battlefield. Botches add unpredictable possibilities into the mix.
+
+In combat (as in any other stressful situation), when a stress die comes up 0, botch dice are rolled. As a general rule, assume that multiple botches are that many times as bad as a single botch. In general, a one-die botch (when one zero comes up on the botch dice) is not harmful, only embarrassing or inconvenient, while a four-die botch could very well be highly injurious or perhaps fatal. It is up to the storyguide to determine the exact effect—no chart or table can substitute for a good imagination.

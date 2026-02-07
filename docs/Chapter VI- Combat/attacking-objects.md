@@ -1,0 +1,5 @@
+## Attacking Objects
+
+Sometimes you may want to direct an attack against an inanimate object, such as an enemy's magic item or a door. Compute your Attack Total normally, but compare it to an ease factor set by the storyguide instead of a Defense Total. To determine how much damage the item sustains, the storyguide assigns the object a Soak score and a number of Body levels. Your Damage Total is your Damage score plus the amount by which your Attack Total exceeds the assigned ease factor. For every full five points by which your Damage Total exceeds the object's Soak, the object loses one Body level.
+
+The storyguide should assign Soak scores and Body levels based on the resilience of the item and the amount of punishment it can sustain before being destroyed. For example, a door might have a Soak score of +10, and 5 Body levels, while the side of a large tent might have a Soak score of +0 and 3 Body levels. Once all an object's levels are depleted, it is irreparably damaged. The more frail an object, the lower a Soak score and the fewer resistance levels it has, while the sturdier the higher the Soak score and the more levels it has.

@@ -38,6 +38,11 @@ markdown_extensions:
 - md_in_html
 nav:
 - Home: index.md
+- Chapter I  Introduction:
+  - Getting Hurt and Dealing Damage: Chapter I- Introduction/getting-hurt-and-dealing-damage.md
+  - Extracts from the Journal of Antoninus of Jerbiton, formerly William of York: Chapter
+      I- Introduction/extracts-from-the-journal-of-antoninus-of-jerbiton-formerly-william-of-york.md
+  - Welcome!: Chapter I- Introduction/welcome.md
 - Chapter Ii  Characters:
   - Types of Characters: Chapter II- Characters/types-of-characters.md
   - Steps in Character Creation: Chapter II- Characters/steps-in-character-creation.md
@@ -63,3 +68,20 @@ nav:
   - Mentem Spells: Chapter V- Spells/mentem-spells.md
   - Terram Spells: Chapter V- Spells/terram-spells.md
   - Vim Spells: Chapter V- Spells/vim-spells.md
+- Chapter Vi  Combat:
+  - Introduction to Combat Scores: Chapter VI- Combat/introduction-to-combat-scores.md
+  - Introduction to Combat Ranges: Chapter VI- Combat/introduction-to-combat-ranges.md
+  - Combat Sequence: Chapter VI- Combat/combat-sequence.md
+  - 3. Melee: Chapter VI- Combat/3-melee.md
+  - Fighting from Horseback: Chapter VI- Combat/fighting-from-horseback.md
+  - 4. Second Missiles: Chapter VI- Combat/4-second-missiles.md
+  - 5. Magic: Chapter VI- Combat/5-magic.md
+  - 6. Fatigue: Chapter VI- Combat/6-fatigue.md
+  - Brawling Maneuvers Table: Chapter VI- Combat/brawling-maneuvers-table.md
+  - Unarmed Combat: Chapter VI- Combat/unarmed-combat.md
+  - Monstrous Combat: Chapter VI- Combat/monstrous-combat.md
+  - Attacking Objects: Chapter VI- Combat/attacking-objects.md
+  - All Out Attack or Defense: Chapter VI- Combat/all-out-attack-or-defense.md
+  - Botches in Combat: Chapter VI- Combat/botches-in-combat.md
+  - Armor: Chapter VI- Combat/armor.md
+  - Weapon Statistics: Chapter VI- Combat/weapon-statistics.md

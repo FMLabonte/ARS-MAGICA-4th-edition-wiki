@@ -1,0 +1,3 @@
+## Fighting from Horseback
+
+There is little doubt that the most powerful figure on the battlefields of Mythic Europe is the armored knight astride a war horse. Fighting from horseback is a great advantage against those on the ground. In addition to the bonuses to initiative, attack, and defense listed on the appropriate tables above, characters on horseback are never encumbered by their equipment. When mounted, their Encumbrance is equal to 0, no matter how much they are carrying.
