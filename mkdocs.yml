@@ -57,7 +57,17 @@ nav:
 - Chapter Iii  Hermetic Magic:
   - The Hermetic Arts: Chapter III- Hermetic Magic/the-hermetic-arts.md
   - Casting Spells: Chapter III- Hermetic Magic/casting-spells.md
+- Chapter Iv  Laboratory:
+  - Apprentices: Chapter IV- Laboratory/apprentices.md
+  - Familiars: Chapter IV- Laboratory/familiars.md
+- Chapter Ix  Covenants:
+  - Covenant Characteristics: Chapter IX- Covenants/covenant-characteristics.md
+  - Stores: Chapter IX- Covenants/stores.md
+  - Relations: Chapter IX- Covenants/relations.md
+  - Library: Chapter IX- Covenants/library.md
+  - Mystical Attributes: Chapter IX- Covenants/mystical-attributes.md
 - Chapter V  Spells:
+  - Spell Format: Chapter V- Spells/spell-format.md
   - Animál Spells: Chapter V- Spells/animál-spells.md
   - Aquam Spells: Chapter V- Spells/aquam-spells.md
   - Auram Spells: Chapter V- Spells/auram-spells.md
@@ -85,3 +95,40 @@ nav:
   - Botches in Combat: Chapter VI- Combat/botches-in-combat.md
   - Armor: Chapter VI- Combat/armor.md
   - Weapon Statistics: Chapter VI- Combat/weapon-statistics.md
+- Chapter Vii  Storyguide:
+  - Health, Aging, Twilight: Chapter VII- Storyguide/health-aging-twilight.md
+  - Other Perils: Chapter VII- Storyguide/other-perils.md
+  - Aging: Chapter VII- Storyguide/aging.md
+  - Wizard's Twilight: Chapter VII- Storyguide/wizards-twilight.md
+- Chapter Viii  Saga:
+  - Supporting Cast: Chapter VIII- Saga/supporting-cast.md
+  - 'Exempli Gratia: Magic Items': Chapter VIII- Saga/exempli-gratia-magic-items.md
+  - The Big Finish: Chapter VIII- Saga/the-big-finish.md
+- Chapter X  Mythic Europe:
+  - Geography: Chapter X- Mythic Europe/geography.md
+  - Northern and Central Europe: Chapter X- Mythic Europe/northern-and-central-europe.md
+  - Eastern Europe: Chapter X- Mythic Europe/eastern-europe.md
+  - The Order of Hermes: Chapter X- Mythic Europe/the-order-of-hermes.md
+- Chapter Xi  Realms:
+  - Realm Power and Domain: Chapter XI- Realms/realm-power-and-domain.md
+  - Realm Interaction: Chapter XI- Realms/realm-interaction.md
+  - The Magic Realm: Chapter XI- Realms/the-magic-realm.md
+  - The Infernal Realm: Chapter XI- Realms/the-infernal-realm.md
+  - The Faerie Realm: Chapter XI- Realms/the-faerie-realm.md
+  - The Divine Realm: Chapter XI- Realms/the-divine-realm.md
+  - The Mundane: Chapter XI- Realms/the-mundane.md
+  - Regiones: Chapter XI- Realms/regiones.md
+- Chapter Xii  Bestiary:
+  - Creature Descriptions: Chapter XII- Bestiary/creature-descriptions.md
+  - Griffin: Chapter XII- Bestiary/griffin.md
+  - Giants and Ogres: Chapter XII- Bestiary/giants-and-ogres.md
+  - Shapeshifters: Chapter XII- Bestiary/shapeshifters.md
+  - Undead: Chapter XII- Bestiary/undead.md
+  - Infernal Creatures: Chapter XII- Bestiary/infernal-creatures.md
+  - Faeries: Chapter XII- Bestiary/faeries.md
+  - Divine Creatures: Chapter XII- Bestiary/divine-creatures.md
+  - Mundane Creatures: Chapter XII- Bestiary/mundane-creatures.md
+- Tools:
+  - Overview: tools-index.md
+  - Base And Combat Stats Calculator: ars_magica_base_and_combat_stats_calculator.html
+  - Enchantment Calculator: ars_magica_enchantment_calculator.html

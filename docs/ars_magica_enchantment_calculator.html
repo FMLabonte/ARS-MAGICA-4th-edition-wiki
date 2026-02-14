@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ars Magica 4E - Enchantment Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d1b3d 100%);
+            color: #e8d4b8;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(20, 20, 30, 0.9);
+            border: 2px solid #8b7355;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #d4af37;
+            margin-bottom: 10px;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #b8986f;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+        
+        .section {
+            background: rgba(40, 30, 50, 0.6);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #5a4a3a;
+        }
+        
+        .section h2 {
+            color: #d4af37;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 1px solid #5a4a3a;
+            padding-bottom: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #c9b896;
+            font-weight: bold;
+        }
+        
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 8px;
+            background: rgba(10, 10, 20, 0.8);
+            border: 1px solid #5a4a3a;
+            border-radius: 4px;
+            color: #e8d4b8;
+            font-size: 1em;
+        }
+        
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .checkbox-group label {
+            margin-bottom: 0;
+            cursor: pointer;
+            font-weight: normal;
+        }
+        
+        .info-text {
+            font-size: 0.85em;
+            color: #a89878;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #8b6f47 0%, #6b5535 100%);
+            border: 2px solid #d4af37;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .calculate-btn:hover {
+            background: linear-gradient(135deg, #a08555 0%, #8b6f47 100%);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .calculate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .results {
+            background: rgba(20, 40, 60, 0.8);
+            padding: 25px;
+            border-radius: 8px;
+            border: 2px solid #d4af37;
+            margin-top: 20px;
+        }
+        
+        .results h2 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5em;
+        }
+        
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(139, 111, 71, 0.3);
+        }
+        
+        .result-row:last-child {
+            border-bottom: none;
+        }
+        
+        .result-label {
+            color: #c9b896;
+            font-weight: bold;
+        }
+        
+        .result-value {
+            color: #e8d4b8;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .highlight {
+            background: rgba(212, 175, 55, 0.2);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            border-left: 4px solid #d4af37;
+        }
+        
+        .highlight .result-label {
+            font-size: 1.1em;
+        }
+        
+        .highlight .result-value {
+            font-size: 1.2em;
+            color: #d4af37;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        @media (max-width: 600px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ Enchantment Calculator ⚡</h1>
+        <div class="subtitle">Ars Magica 4th Edition - Magic Item Creation</div>
+        
+        <div class="section">
+            <h2>Base Effect</h2>
+            <div class="form-group">
+                <label for="baseLevel">Base Spell Level:</label>
+                <input type="number" id="baseLevel" value="15" min="0">
+                <div class="info-text">The level of the spell effect you want to duplicate</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Item Preparation (Invested Devices Only)</h2>
+            <div class="info-text" style="margin-bottom: 15px;">For Lesser Enchanted Devices, skip this section - no preparation needed!</div>
+            
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="materialPoints">Material Base Points:</label>
+                    <input type="number" id="materialPoints" value="5" min="1" max="20">
+                    <div class="info-text">cloth/glass=1, wood/leather=2, bone=3, stone=4, base metal=5, silver=6, gold=10, gems=12-20</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sizeMultiplier">Size Multiplier:</label>
+                    <input type="number" id="sizeMultiplier" value="2" min="1" max="5">
+                    <div class="info-text">tiny=×1, small=×2, medium=×3, large=×4, huge=×5</div>
+                </div>
+            </div>
+            
+            <div class="result-row" style="background: rgba(212, 175, 55, 0.1); padding: 10px; border-radius: 4px; margin-top: 10px;">
+                <span class="result-label">Preparation Vis Required:</span>
+                <span class="result-value" id="prepVisDisplay">10 pawns of Vim</span>
+            </div>
+            <div class="info-text">This also sets the maximum total vis you can invest in all effects</div>
+            
+            <div class="form-group" style="margin-top: 15px;">
+                <label for="alreadyInvested">Vis Already Invested in Other Effects:</label>
+                <input type="number" id="alreadyInvested" value="0" min="0">
+                <div class="info-text">If this item already has other effects, enter the total vis spent on them</div>
+            </div>
+            
+            <div class="result-row" style="background: rgba(80, 120, 160, 0.2); padding: 10px; border-radius: 4px; margin-top: 10px;">
+                <span class="result-label">Remaining Capacity:</span>
+                <span class="result-value" id="remainingCapacity">10 pawns available</span>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Effect Frequency</h2>
+            <div class="form-group">
+                <label for="frequency">Uses per Day:</label>
+                <select id="frequency">
+                    <option value="0">1 use per day (+0)</option>
+                    <option value="1">2 uses per day (+1)</option>
+                    <option value="2">3 uses per day (+2)</option>
+                    <option value="3">6 uses per day (+3)</option>
+                    <option value="4">12 uses per day (+4)</option>
+                    <option value="5">24 uses per day (+5)</option>
+                    <option value="6">50 uses per day (+6)</option>
+                    <option value="10">Unlimited (+10)</option>
+                    <option value="5c">Constant use (+5)</option>
+                </select>
+                <div class="info-text">Note: Constant use cannot have charges</div>
+            </div>
+            
+            <div class="checkbox-group" style="margin-top: 15px;">
+                <input type="checkbox" id="hasCharges">
+                <label for="hasCharges">Add Charges (limited total uses)</label>
+            </div>
+            <div class="info-text" style="margin-left: 25px;">Charges work WITH frequency - item is limited by both uses/day AND total charges</div>
+            
+            <div class="form-group" id="chargesSelect" class="hidden" style="margin-left: 25px; margin-top: 10px;">
+                <label for="chargeCount">Number of Charges:</label>
+                <select id="chargeCount">
+                    <option value="-5">1 charge (-5)</option>
+                    <option value="-4">2 charges (-4)</option>
+                    <option value="-3">3 charges (-3)</option>
+                    <option value="-2">6 charges (-2)</option>
+                    <option value="-1">12 charges (-1)</option>
+                    <option value="0">24 charges (±0)</option>
+                    <option value="1">50 charges (+1)</option>
+                    <option value="5">100 charges (+5)</option>
+                </select>
+            </div>
+            
+            <div class="checkbox-group" id="rechargeableOption" class="hidden" style="margin-left: 25px; margin-top: 10px;">
+                <input type="checkbox" id="rechargeable">
+                <label for="rechargeable">Make Rechargeable (+5 levels)</label>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Effect Modifications</h2>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="visPumping">
+                <label for="visPumping">Vis Pumping in the Field (+3 per factor)</label>
+            </div>
+            <div class="form-group" id="visPumpingFactors" class="hidden" style="margin-left: 25px;">
+                <label for="visPumpingCount">Number of factors (range/duration):</label>
+                <input type="number" id="visPumpingCount" value="1" min="0" max="10">
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="penetrationOriginal">
+                <label for="penetrationOriginal">Penetration using Original Art Scores (+4)</label>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="penetrationWielder">
+                <label for="penetrationWielder">Penetration using Wielder's Art Scores (+8)</label>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="concentration">
+                <label for="concentration">Device Maintains Concentration (+5)</label>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="restrictedUse">
+                <label for="restrictedUse">Restricted to Specific Users (+3)</label>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="deviceOnly">
+                <label for="deviceOnly">Effect Governs Device Only (÷2 final level)</label>
+            </div>
+            <div class="info-text">Effect only works on the device itself (e.g., staff grows thorns)</div>
+        </div>
+        
+        <div class="section">
+            <h2>Lab Bonuses</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="formBonus">Form & Material Bonus:</label>
+                    <input type="number" id="formBonus" value="0" min="0" max="20">
+                    <div class="info-text">From Form & Effect Bonuses Table</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="auraBonus">Magic Aura Strength:</label>
+                    <input type="number" id="auraBonus" value="3" min="0" max="10">
+                    <div class="info-text">Typically 3-5 in covenant</div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="similarEffects">Similar Effects in Device:</label>
+                <input type="number" id="similarEffects" value="0" min="0">
+                <div class="info-text">+1 per effect with matching Technique or Form</div>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="isTalisman">
+                <label for="isTalisman">Enchanting a Talisman (+2)</label>
+            </div>
+        </div>
+        
+        <button class="calculate-btn" onclick="calculate()">⚡ Calculate Requirements ⚡</button>
+        
+        <div id="results" class="results hidden">
+            <h2>✨ Enchantment Results ✨</h2>
+            
+            <div class="result-row">
+                <span class="result-label">Base Effect Level:</span>
+                <span class="result-value" id="resultBaseLevel">-</span>
+            </div>
+            
+            <div class="result-row">
+                <span class="result-label">Frequency Modifier:</span>
+                <span class="result-value" id="resultFreqMod">-</span>
+            </div>
+            
+            <div class="result-row">
+                <span class="result-label">Total Modifications:</span>
+                <span class="result-value" id="resultModifications">-</span>
+            </div>
+            
+            <div class="result-row">
+                <span class="result-label">Modified Effect Level (before ÷2):</span>
+                <span class="result-value" id="resultPreDivision">-</span>
+            </div>
+            
+            <div class="highlight">
+                <div class="result-row">
+                    <span class="result-label">Final Effect Level:</span>
+                    <span class="result-value" id="resultFinalLevel">-</span>
+                </div>
+            </div>
+            
+            <div class="highlight">
+                <div class="result-row">
+                    <span class="result-label">Vis Required for This Effect:</span>
+                    <span class="result-value" id="resultVis">-</span>
+                </div>
+            </div>
+            
+            <div id="capacityWarning" class="hidden" style="background: rgba(200, 50, 50, 0.3); padding: 15px; border-radius: 6px; margin: 15px 0; border-left: 4px solid #c83232;">
+                <div style="color: #ff6b6b; font-weight: bold; margin-bottom: 8px;">⚠️ INSUFFICIENT CAPACITY ⚠️</div>
+                <div style="color: #ffb3b3;" id="capacityWarningText">-</div>
+            </div>
+            
+            <div id="capacityOk" class="hidden" style="background: rgba(50, 200, 100, 0.2); padding: 15px; border-radius: 6px; margin: 15px 0; border-left: 4px solid #32c864;">
+                <div style="color: #6bff9b; font-weight: bold; margin-bottom: 8px;">✓ Capacity Check Passed</div>
+                <div style="color: #a8ffcc;" id="capacityOkText">-</div>
+            </div>
+            
+            <div class="result-row">
+                <span class="result-label">Minimum Preparation Vis Needed:</span>
+                <span class="result-value" id="resultMinPrep">-</span>
+            </div>
+            
+            <div class="result-row">
+                <span class="result-label">Total Lab Bonuses:</span>
+                <span class="result-value" id="resultLabBonus">-</span>
+            </div>
+            
+            <div class="highlight">
+                <div class="result-row">
+                    <span class="result-label">Required Lab Total (minimum):</span>
+                    <span class="result-value" id="resultLabTotal">-</span>
+                </div>
+            </div>
+            
+            <div class="result-row">
+                <span class="result-label">Seasons to Complete:</span>
+                <span class="result-value" id="resultSeasons">-</span>
+            </div>
+            
+            <div id="penetrationInfo" class="hidden" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(139, 111, 71, 0.5);">
+                <div class="result-row">
+                    <span class="result-label">Penetration Score:</span>
+                    <span class="result-value" id="resultPenetration">-</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Update preparation vis and remaining capacity display
+        function updatePrepVis() {
+            const material = parseInt(document.getElementById('materialPoints').value) || 0;
+            const size = parseInt(document.getElementById('sizeMultiplier').value) || 1;
+            const prepVis = material * size;
+            const alreadyInvested = parseInt(document.getElementById('alreadyInvested').value) || 0;
+            const remaining = prepVis - alreadyInvested;
+            
+            document.getElementById('prepVisDisplay').textContent = `${prepVis} pawns of Vim`;
+            
+            if (remaining < 0) {
+                document.getElementById('remainingCapacity').textContent = `⚠️ OVER CAPACITY by ${Math.abs(remaining)} pawns!`;
+                document.getElementById('remainingCapacity').style.color = '#ff6b6b';
+            } else {
+                document.getElementById('remainingCapacity').textContent = `${remaining} pawns available`;
+                document.getElementById('remainingCapacity').style.color = '#e8d4b8';
+            }
+        }
+        
+        document.getElementById('materialPoints').addEventListener('input', updatePrepVis);
+        document.getElementById('sizeMultiplier').addEventListener('input', updatePrepVis);
+        document.getElementById('alreadyInvested').addEventListener('input', updatePrepVis);
+        
+        // Toggle visibility of conditional fields
+        document.getElementById('visPumping').addEventListener('change', function() {
+            document.getElementById('visPumpingFactors').classList.toggle('hidden', !this.checked);
+        });
+        
+        document.getElementById('hasCharges').addEventListener('change', function() {
+            document.getElementById('chargesSelect').classList.toggle('hidden', !this.checked);
+            document.getElementById('rechargeableOption').classList.toggle('hidden', !this.checked);
+            if (!this.checked) {
+                document.getElementById('rechargeable').checked = false;
+            }
+        });
+        
+        // Prevent constant use with charges
+        document.getElementById('frequency').addEventListener('change', function() {
+            if (this.value === '5c') {
+                document.getElementById('hasCharges').checked = false;
+                document.getElementById('hasCharges').disabled = true;
+                document.getElementById('chargesSelect').classList.add('hidden');
+                document.getElementById('rechargeableOption').classList.add('hidden');
+            } else {
+                document.getElementById('hasCharges').disabled = false;
+            }
+        });
+        
+        // Prevent conflicting penetration options
+        document.getElementById('penetrationOriginal').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('penetrationWielder').checked = false;
+            }
+        });
+        
+        document.getElementById('penetrationWielder').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('penetrationOriginal').checked = false;
+            }
+        });
+        
+        function calculate() {
+            // Get base level
+            const baseLevel = parseInt(document.getElementById('baseLevel').value) || 0;
+            
+            // Get frequency modifier
+            const freqValue = document.getElementById('frequency').value;
+            let frequencyMod = 0;
+            let isConstant = false;
+            
+            if (freqValue === '5c') {
+                frequencyMod = 5;
+                isConstant = true;
+            } else {
+                frequencyMod = parseInt(freqValue);
+            }
+            
+            // Calculate modifications
+            let modifications = 0;
+            const modDetails = [];
+            
+            if (document.getElementById('visPumping').checked) {
+                const factors = parseInt(document.getElementById('visPumpingCount').value) || 1;
+                const visPumpMod = factors * 3;
+                modifications += visPumpMod;
+                modDetails.push(`Vis Pumping (${factors} factor${factors > 1 ? 's' : ''}): +${visPumpMod}`);
+            }
+            
+            if (document.getElementById('penetrationOriginal').checked) {
+                modifications += 4;
+                modDetails.push('Penetration (Original Arts): +4');
+            }
+            
+            if (document.getElementById('penetrationWielder').checked) {
+                modifications += 8;
+                modDetails.push('Penetration (Wielder Arts): +8');
+            }
+            
+            if (document.getElementById('concentration').checked) {
+                modifications += 5;
+                modDetails.push('Device Concentration: +5');
+            }
+            
+            if (document.getElementById('restrictedUse').checked) {
+                modifications += 3;
+                modDetails.push('Restricted Use: +3');
+            }
+            
+            if (document.getElementById('hasCharges').checked) {
+                const chargeMod = parseInt(document.getElementById('chargeCount').value);
+                modifications += chargeMod;
+                const chargeText = document.getElementById('chargeCount').options[document.getElementById('chargeCount').selectedIndex].text;
+                modDetails.push(`Charges: ${chargeMod >= 0 ? '+' : ''}${chargeMod}`);
+            }
+            
+            if (document.getElementById('rechargeable').checked) {
+                modifications += 5;
+                modDetails.push('Rechargeable: +5');
+            }
+            
+            // Calculate pre-division level
+            let preDivisionLevel = baseLevel + frequencyMod + modifications;
+            
+            // Apply device-only division if applicable
+            const deviceOnly = document.getElementById('deviceOnly').checked;
+            let finalLevel = preDivisionLevel;
+            if (deviceOnly) {
+                finalLevel = Math.ceil(preDivisionLevel / 2);
+            }
+            
+            // Calculate vis required for this effect
+            const effectVisRequired = Math.ceil(finalLevel / 10);
+            
+            // Get preparation vis and already invested
+            const material = parseInt(document.getElementById('materialPoints').value) || 0;
+            const size = parseInt(document.getElementById('sizeMultiplier').value) || 1;
+            const prepVis = material * size;
+            const alreadyInvested = parseInt(document.getElementById('alreadyInvested').value) || 0;
+            
+            // Calculate total vis that would be used
+            const totalVisUsed = alreadyInvested + effectVisRequired;
+            
+            // Calculate minimum preparation vis needed for this effect alone
+            const minPrepForEffect = effectVisRequired;
+            // Calculate minimum prep needed considering already invested effects
+            const minPrepTotal = totalVisUsed;
+            
+            // Check capacity
+            const hasCapacity = totalVisUsed <= prepVis;
+            
+            // Calculate lab bonuses
+            let labBonus = 0;
+            const labDetails = [];
+            
+            const formBonus = parseInt(document.getElementById('formBonus').value) || 0;
+            if (formBonus > 0) {
+                labBonus += formBonus;
+                labDetails.push(`Form & Material: +${formBonus}`);
+            }
+            
+            const auraBonus = parseInt(document.getElementById('auraBonus').value) || 0;
+            if (auraBonus > 0) {
+                labBonus += auraBonus;
+                labDetails.push(`Magic Aura: +${auraBonus}`);
+            }
+            
+            const similarEffects = parseInt(document.getElementById('similarEffects').value) || 0;
+            if (similarEffects > 0) {
+                labBonus += similarEffects;
+                labDetails.push(`Similar Effects: +${similarEffects}`);
+            }
+            
+            if (document.getElementById('isTalisman').checked) {
+                labBonus += 2;
+                labDetails.push('Talisman: +2');
+            }
+            
+            // Calculate required lab total
+            const requiredLabTotal = finalLevel;
+            
+            // Calculate example seasons (assuming lab total equals requirement)
+            const excessPoints = 1; // Minimum excess to make progress
+            const seasonsNeeded = Math.ceil(finalLevel / excessPoints);
+            
+            // Display results
+            document.getElementById('resultBaseLevel').textContent = baseLevel;
+            document.getElementById('resultFreqMod').textContent = `+${frequencyMod} (${isConstant ? 'Constant' : document.getElementById('frequency').options[document.getElementById('frequency').selectedIndex].text})`;
+            document.getElementById('resultModifications').textContent = modifications >= 0 ? `+${modifications}` : modifications;
+            document.getElementById('resultPreDivision').textContent = preDivisionLevel;
+            document.getElementById('resultFinalLevel').textContent = finalLevel + (deviceOnly ? ' (÷2 applied)' : '');
+            
+            // Show vis for this effect
+            document.getElementById('resultVis').textContent = `${effectVisRequired} pawn${effectVisRequired !== 1 ? 's' : ''} of appropriate Art`;
+            
+            // Show capacity check
+            if (hasCapacity) {
+                document.getElementById('capacityWarning').classList.add('hidden');
+                document.getElementById('capacityOk').classList.remove('hidden');
+                
+                const remaining = prepVis - totalVisUsed;
+                document.getElementById('capacityOkText').textContent = 
+                    `This effect fits! Total vis used: ${totalVisUsed} pawns (${alreadyInvested} already + ${effectVisRequired} for this effect). Remaining capacity: ${remaining} pawn${remaining !== 1 ? 's' : ''}.`;
+            } else {
+                document.getElementById('capacityWarning').classList.remove('hidden');
+                document.getElementById('capacityOk').classList.add('hidden');
+                
+                const shortage = totalVisUsed - prepVis;
+                const neededPrep = totalVisUsed;
+                
+                document.getElementById('capacityWarningText').textContent = 
+                    `This effect requires ${effectVisRequired} pawns, but with ${alreadyInvested} pawns already invested, the total (${totalVisUsed} pawns) exceeds your preparation capacity of ${prepVis} pawns by ${shortage} pawn${shortage !== 1 ? 's' : ''}. You need to prepare an item with at least ${neededPrep} pawns capacity.`;
+            }
+            
+            // Show minimum preparation requirement
+            if (alreadyInvested > 0) {
+                document.getElementById('resultMinPrep').textContent = 
+                    `${minPrepTotal} pawns (${alreadyInvested} for existing effects + ${effectVisRequired} for this effect)`;
+            } else {
+                document.getElementById('resultMinPrep').textContent = 
+                    `${minPrepForEffect} pawn${minPrepForEffect !== 1 ? 's' : ''} (for this effect alone)`;
+            }
+            
+            document.getElementById('resultLabBonus').textContent = `+${labBonus}`;
+            document.getElementById('resultLabTotal').textContent = `${requiredLabTotal} (before Lab Bonuses)`;
+            
+            // Calculate seasons based on a hypothetical lab total
+            const exampleLabTotal = requiredLabTotal + labBonus + 10; // Example: modest excess
+            const pointsPerSeason = exampleLabTotal - requiredLabTotal;
+            const actualSeasons = pointsPerSeason > 0 ? Math.ceil(finalLevel / pointsPerSeason) : '∞';
+            
+            document.getElementById('resultSeasons').textContent = `Depends on Lab Total. Example: Lab Total ${exampleLabTotal} = ${actualSeasons} season${actualSeasons !== 1 && actualSeasons !== '∞' ? 's' : ''}`;
+            
+            // Show penetration info
+            if (document.getElementById('penetrationOriginal').checked || document.getElementById('penetrationWielder').checked) {
+                document.getElementById('penetrationInfo').classList.remove('hidden');
+                document.getElementById('resultPenetration').textContent = `${baseLevel} (equals base spell level)`;
+            } else {
+                document.getElementById('penetrationInfo').classList.add('hidden');
+                document.getElementById('resultPenetration').textContent = `${baseLevel} (equals base spell level)`;
+            }
+            
+            // Show results section
+            document.getElementById('results').classList.remove('hidden');
+            
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>
