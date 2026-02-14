@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ars Magica Character Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 100%);
+            color: #f4e4c1;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(20, 10, 5, 0.8);
+            border: 3px solid #8b6914;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            text-align: center;
+            color: #d4af37;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #b8956a;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .points-display {
+            text-align: center;
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(139, 105, 20, 0.2);
+            border: 2px solid #8b6914;
+            border-radius: 5px;
+        }
+
+        .points-value {
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            background: rgba(60, 40, 20, 0.6);
+            padding: 15px;
+            border: 2px solid #6b5424;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            border-color: #d4af37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .stat-label {
+            font-weight: bold;
+            color: #d4af37;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .stat-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .stat-button {
+            background: #6b5424;
+            color: #f4e4c1;
+            border: 2px solid #8b6914;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .stat-button:hover:not(:disabled) {
+            background: #8b6914;
+            transform: scale(1.05);
+        }
+
+        .stat-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #f4e4c1;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .exceptional-controls {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #6b5424;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #d4af37;
+        }
+
+        .checkbox-group label {
+            cursor: pointer;
+            color: #b8956a;
+        }
+
+        .checkbox-group input[type="checkbox"]:disabled {
+            cursor: not-allowed;
+            opacity: 0.4;
+        }
+
+        .checkbox-group label.disabled {
+            cursor: not-allowed;
+            opacity: 0.4;
+        }
+
+        .section-title {
+            color: #d4af37;
+            font-size: 1.6em;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #8b6914;
+        }
+
+        .secondary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .secondary-item {
+            background: rgba(40, 30, 15, 0.6);
+            padding: 12px;
+            border-left: 4px solid #8b6914;
+            border-radius: 4px;
+        }
+
+        .secondary-name {
+            font-weight: bold;
+            color: #b8956a;
+            margin-bottom: 5px;
+        }
+
+        .secondary-value {
+            font-size: 1.3em;
+            color: #f4e4c1;
+            font-weight: bold;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .input-group label {
+            color: #b8956a;
+            font-size: 0.9em;
+        }
+
+        .input-group input {
+            width: 60px;
+            padding: 5px;
+            background: rgba(60, 40, 20, 0.8);
+            border: 1px solid #6b5424;
+            border-radius: 3px;
+            color: #f4e4c1;
+            font-size: 1em;
+        }
+
+        .reset-button {
+            display: block;
+            margin: 30px auto 0;
+            padding: 12px 30px;
+            background: #8b2500;
+            color: #f4e4c1;
+            border: 2px solid #d4af37;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .reset-button:hover {
+            background: #a52a00;
+            transform: scale(1.05);
+        }
+
+        .cost-indicator {
+            font-size: 0.85em;
+            color: #b8956a;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ars Magica</h1>
+        <div class="subtitle">Character Generator</div>
+
+        <div class="points-display">
+            Points Remaining: <span class="points-value" id="pointsRemaining">7</span>
+        </div>
+
+        <h2 class="section-title">Primary Characteristics</h2>
+        <div class="stats-grid" id="statsGrid"></div>
+
+        <h2 class="section-title">Equipment & Modifiers</h2>
+        <div class="secondary-stats">
+            <div class="secondary-item">
+                <div class="secondary-name">Size</div>
+                <div class="input-group">
+                    <input type="number" id="size" value="0" min="-5" max="5">
+                    <span style="color: #b8956a; font-size: 0.85em;">(typically 0 for humans)</span>
+                </div>
+            </div>
+            <div class="secondary-item">
+                <div class="secondary-name">Load</div>
+                <div class="input-group">
+                    <input type="number" id="load" value="0" min="0" step="0.1">
+                    <span style="color: #b8956a; font-size: 0.85em;">(equipment weight)</span>
+                </div>
+            </div>
+            <div class="secondary-item">
+                <div class="secondary-name">Weapon Skill</div>
+                <div class="input-group">
+                    <input type="number" id="weaponSkill" value="0" min="0">
+                </div>
+            </div>
+            <div class="secondary-item">
+                <div class="secondary-name">Weapon Initiative Bonus</div>
+                <div class="input-group">
+                    <input type="number" id="weaponInit" value="0">
+                </div>
+            </div>
+            <div class="secondary-item">
+                <div class="secondary-name">Weapon Attack Bonus</div>
+                <div class="input-group">
+                    <input type="number" id="weaponAtk" value="0">
+                </div>
+            </div>
+            <div class="secondary-item">
+                <div class="secondary-name">Weapon Defense Bonus</div>
+                <div class="input-group">
+                    <input type="number" id="weaponDef" value="0">
+                </div>
+            </div>
+            <div class="secondary-item">
+                <div class="secondary-name">Weapon Damage Bonus</div>
+                <div class="input-group">
+                    <input type="number" id="weaponDam" value="0">
+                </div>
+            </div>
+            <div class="secondary-item">
+                <div class="secondary-name">Armor Protection</div>
+                <div class="input-group">
+                    <input type="number" id="armorProt" value="0" min="0">
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Combat Statistics</h2>
+        <div class="secondary-stats" id="combatStats"></div>
+
+        <button class="reset-button" onclick="resetCharacter()">Reset Character</button>
+    </div>
+
+    <script>
+        const stats = [
+            { name: 'Intelligence', abbr: 'INT', value: 0, exceptional: false, mythical: false },
+            { name: 'Perception', abbr: 'PER', value: 0, exceptional: false, mythical: false },
+            { name: 'Communication', abbr: 'COM', value: 0, exceptional: false, mythical: false },
+            { name: 'Presence', abbr: 'PRE', value: 0, exceptional: false, mythical: false },
+            { name: 'Strength', abbr: 'STR', value: 0, exceptional: false, mythical: false },
+            { name: 'Stamina', abbr: 'STM', value: 0, exceptional: false, mythical: false },
+            { name: 'Quickness', abbr: 'QIK', value: 0, exceptional: false, mythical: false },
+            { name: 'Dexterity', abbr: 'DEX', value: 0, exceptional: false, mythical: false }
+        ];
+
+        let pointsRemaining = 7;
+
+        // Point costs for stat values (cost to reach that value from 0)
+        const costs = {
+            '-3': -6, '-2': -3, '-1': -1,
+            '0': 0,
+            '1': 1, '2': 3, '3': 6
+        };
+
+        function getCostToIncrease(currentValue) {
+            if (currentValue >= 3) return null;
+            const nextValue = currentValue + 1;
+            return costs[nextValue] - costs[currentValue];
+        }
+
+        function getCostToDecrease(currentValue) {
+            if (currentValue <= -3) return null;
+            const nextValue = currentValue - 1;
+            return costs[nextValue] - costs[currentValue];
+        }
+
+        function updateStat(index, delta) {
+            const stat = stats[index];
+            const newValue = stat.value + delta;
+            
+            if (newValue < -3 || newValue > 3) return;
+
+            let cost;
+            if (delta > 0) {
+                // Increasing the stat
+                cost = getCostToIncrease(stat.value);
+                if (cost === null || pointsRemaining < cost) return;
+                pointsRemaining -= cost;
+            } else {
+                // Decreasing the stat (gives points back)
+                cost = getCostToDecrease(stat.value);
+                if (cost === null) return;
+                pointsRemaining -= cost; // cost will be negative, so this adds points
+            }
+
+            stat.value = newValue;
+            
+            // Reset exceptional/mythical if value drops below 3
+            if (stat.value < 3) {
+                stat.exceptional = false;
+                stat.mythical = false;
+            }
+            
+            renderStats();
+            updateCombatStats();
+        }
+
+        function toggleExceptional(index) {
+            const stat = stats[index];
+            if (stat.value < 3) return;
+            
+            if (stat.exceptional) {
+                stat.exceptional = false;
+            } else {
+                stat.exceptional = true;
+                stat.mythical = false;
+            }
+            
+            renderStats();
+            updateCombatStats();
+        }
+
+        function toggleMythical(index) {
+            const stat = stats[index];
+            if (stat.value < 3) return;
+            
+            if (stat.mythical) {
+                stat.mythical = false;
+            } else {
+                stat.mythical = true;
+                stat.exceptional = false;
+            }
+            
+            renderStats();
+            updateCombatStats();
+        }
+
+        function getEffectiveValue(stat) {
+            if (stat.mythical) return 5;
+            if (stat.exceptional) return 4;
+            return stat.value;
+        }
+
+        function renderStats() {
+            const grid = document.getElementById('statsGrid');
+            grid.innerHTML = stats.map((stat, index) => {
+                const costUp = getCostToIncrease(stat.value);
+                const costDown = getCostToDecrease(stat.value);
+                const canIncrease = costUp !== null && pointsRemaining >= costUp;
+                const canDecrease = costDown !== null;
+                const effectiveValue = getEffectiveValue(stat);
+                const canUseExceptional = stat.value >= 3;
+
+                let nextInfo = '';
+                if (costUp !== null) {
+                    if (costUp > 0) {
+                        nextInfo = `Next: ${costUp} pt${costUp > 1 ? 's' : ''}`;
+                    } else {
+                        nextInfo = `Next: +${Math.abs(costUp)} pt${Math.abs(costUp) > 1 ? 's' : ''}`;
+                    }
+                } else {
+                    nextInfo = 'Max reached';
+                }
+
+                return `
+                    <div class="stat-item">
+                        <div class="stat-label">${stat.name} (${stat.abbr})</div>
+                        <div class="stat-controls">
+                            <button class="stat-button" onclick="updateStat(${index}, -1)" 
+                                ${!canDecrease ? 'disabled' : ''}>−</button>
+                            <span class="stat-value">${effectiveValue >= 0 ? '+' : ''}${effectiveValue}</span>
+                            <button class="stat-button" onclick="updateStat(${index}, 1)" 
+                                ${!canIncrease ? 'disabled' : ''}>+</button>
+                        </div>
+                        <div class="cost-indicator">
+                            ${nextInfo}
+                        </div>
+                        <div class="exceptional-controls">
+                            <div class="checkbox-group">
+                                <input type="checkbox" 
+                                    id="exceptional_${index}" 
+                                    ${stat.exceptional ? 'checked' : ''} 
+                                    ${!canUseExceptional ? 'disabled' : ''}
+                                    onchange="toggleExceptional(${index})">
+                                <label for="exceptional_${index}" class="${!canUseExceptional ? 'disabled' : ''}">
+                                    Exceptional (+4)
+                                </label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" 
+                                    id="mythical_${index}" 
+                                    ${stat.mythical ? 'checked' : ''} 
+                                    ${!canUseExceptional ? 'disabled' : ''}
+                                    onchange="toggleMythical(${index})">
+                                <label for="mythical_${index}" class="${!canUseExceptional ? 'disabled' : ''}">
+                                    Mythical (+5)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('pointsRemaining').textContent = pointsRemaining;
+        }
+
+        function getStat(abbr) {
+            const stat = stats.find(s => s.abbr === abbr);
+            return getEffectiveValue(stat);
+        }
+
+        function getInputValue(id) {
+            return parseFloat(document.getElementById(id).value) || 0;
+        }
+
+        function updateCombatStats() {
+            const size = getInputValue('size');
+            const load = getInputValue('load');
+            const weaponSkill = getInputValue('weaponSkill');
+            const weaponInit = getInputValue('weaponInit');
+            const weaponAtk = getInputValue('weaponAtk');
+            const weaponDef = getInputValue('weaponDef');
+            const weaponDam = getInputValue('weaponDam');
+            const armorProt = getInputValue('armorProt');
+
+            const str = getStat('STR');
+            const stm = getStat('STM');
+            const qik = getStat('QIK');
+            const dex = getStat('DEX');
+            const per = getStat('PER');
+
+            // Calculate Encumbrance
+            const enc = Math.min(0, str - load);
+
+            // Calculate combat stats
+            const init = qik + weaponSkill + weaponInit + enc;
+            const atkMelee = dex + weaponSkill + weaponAtk + enc;
+            const atkMissile = per + weaponSkill + weaponAtk + enc;
+            const dfnMelee = qik + weaponSkill + weaponDef - size + enc;
+            const damMelee = str + size + weaponDam;
+            const damMissile = weaponDam;
+            const soak = stm + size + armorProt;
+            const fat = stm + weaponSkill + enc;
+
+            const combatStats = document.getElementById('combatStats');
+            combatStats.innerHTML = `
+                <div class="secondary-item">
+                    <div class="secondary-name">Encumbrance (ENC)</div>
+                    <div class="secondary-value">${enc >= 0 ? '+' : ''}${enc}</div>
+                    <div style="font-size: 0.85em; color: #b8956a; margin-top: 3px;">
+                        STR (${str >= 0 ? '+' : ''}${str}) - LOAD (${load})
+                    </div>
+                </div>
+                <div class="secondary-item">
+                    <div class="secondary-name">Initiative (INIT)</div>
+                    <div class="secondary-value">${init >= 0 ? '+' : ''}${init}</div>
+                    <div style="font-size: 0.85em; color: #b8956a; margin-top: 3px;">
+                        QIK + Weapon Skill + Bonuses + ENC
+                    </div>
+                </div>
+                <div class="secondary-item">
+                    <div class="secondary-name">Attack - Melee (ATK)</div>
+                    <div class="secondary-value">${atkMelee >= 0 ? '+' : ''}${atkMelee}</div>
+                    <div style="font-size: 0.85em; color: #b8956a; margin-top: 3px;">
+                        DEX + Weapon Skill + Bonuses + ENC
+                    </div>
+                </div>
+                <div class="secondary-item">
+                    <div class="secondary-name">Attack - Missile (ATK)</div>
+                    <div class="secondary-value">${atkMissile >= 0 ? '+' : ''}${atkMissile}</div>
+                    <div style="font-size: 0.85em; color: #b8956a; margin-top: 3px;">
+                        PER + Weapon Skill + Bonuses + ENC
+                    </div>
+                </div>
+                <div class="secondary-item">
+                    <div class="secondary-name">Defense - Melee (DFN)</div>
+                    <div class="secondary-value">${dfnMelee >= 0 ? '+' : ''}${dfnMelee}</div>
+                    <div style="font-size: 0.85em; color: #b8956a; margin-top: 3px;">
+                        QIK + Weapon Skill + Bonuses - SIZE + ENC
+                    </div>
+                </div>
+                <div class="secondary-item">
+                    <div class="secondary-name">Damage - Melee (DAM)</div>
+                    <div class="secondary-value">${damMelee >= 0 ? '+' : ''}${damMelee}</div>
+                    <div style="font-size: 0.85em; color: #b8956a; margin-top: 3px;">
+                        STR + SIZE + Weapon Bonus
+                    </div>
+                </div>
+                <div class="secondary-item">
+                    <div class="secondary-name">Damage - Missile (DAM)</div>
+                    <div class="secondary-value">${damMissile >= 0 ? '+' : ''}${damMissile}</div>
+                    <div style="font-size: 0.85em; color: #b8956a; margin-top: 3px;">
+                        Weapon Bonus only
+                    </div>
+                </div>
+                <div class="secondary-item">
+                    <div class="secondary-name">Soak (SOAK)</div>
+                    <div class="secondary-value">${soak >= 0 ? '+' : ''}${soak}</div>
+                    <div style="font-size: 0.85em; color: #b8956a; margin-top: 3px;">
+                        STM + SIZE + Armor Protection
+                    </div>
+                </div>
+                <div class="secondary-item">
+                    <div class="secondary-name">Combat Fatigue (FAT)</div>
+                    <div class="secondary-value">${fat >= 0 ? '+' : ''}${fat}</div>
+                    <div style="font-size: 0.85em; color: #b8956a; margin-top: 3px;">
+                        STM + Weapon Skill + ENC
+                    </div>
+                </div>
+            `;
+        }
+
+        function resetCharacter() {
+            stats.forEach(stat => {
+                stat.value = 0;
+                stat.exceptional = false;
+                stat.mythical = false;
+            });
+            pointsRemaining = 7;
+            document.getElementById('size').value = 0;
+            document.getElementById('load').value = 0;
+            document.getElementById('weaponSkill').value = 0;
+            document.getElementById('weaponInit').value = 0;
+            document.getElementById('weaponAtk').value = 0;
+            document.getElementById('weaponDef').value = 0;
+            document.getElementById('weaponDam').value = 0;
+            document.getElementById('armorProt').value = 0;
+            renderStats();
+            updateCombatStats();
+        }
+
+        // Add event listeners to equipment inputs
+        ['size', 'load', 'weaponSkill', 'weaponInit', 'weaponAtk', 'weaponDef', 'weaponDam', 'armorProt'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateCombatStats);
+        });
+
+        // Initial render
+        renderStats();
+        updateCombatStats();
+    </script>
+</body>
+</html>
